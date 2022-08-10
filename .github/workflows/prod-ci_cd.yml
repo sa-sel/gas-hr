@@ -58,6 +58,7 @@ jobs:
       - name: Deploy to Google Sheets
         env:
           SCRIPT_ID: ${{ secrets.GAS_SCRIPT_ID }}
+          ENV: 'GITHUB'
         run: |
           npm ci
           npm run push

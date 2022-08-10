@@ -12,6 +12,7 @@
     "target": "ES2019",
     "baseUrl": "./",
     "paths": {
+      "@models": ["src/models"],
       "@utils/*": ["src/utils/*"],
       "@core/*": ["src/core/*"]
     }
