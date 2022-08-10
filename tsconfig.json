@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["esnext"],
+    "module": "es2020",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "sourceMap": true,
+    "target": "ES2019",
+    "baseUrl": "./",
+    "paths": {
+      "@utils/*": ["src/utils/*"],
+      "@core/*": ["src/core/*"]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+name: Production Environment CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint_prod:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: lint_prod
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      # - name: 📂 Login to Clasp
+      # uses: daikikatsuragawa/clasp-action@v1.1.0
+      # with:
+      #   accessToken: ${{ secrets.GAS_ACCESS_TOKEN }}
+      #   idToken: ${{ secrets.GAS_ID_TOKEN }}
+      #   refreshToken: ${{ secrets.GAS_REFRESH_TOKEN }}
+      #   clientId: ${{ secrets.GAS_CLIENT_ID }}
+      #   clientSecret: ${{ secrets.GAS_CLIENT_SECRET }}
+      #   scriptId: ${{ secrets.GAS_SCRIPT_ID }}
+      #   command: 'push'
+
+      - name: 📂 Login to Clasp
+        uses: namaggarwal/clasp-token-action@v0.0.1
+        with:
+          client-id: ${{ secrets.GAS_CLIENT_ID }}
+          client-secret: ${{ secrets.GAS_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.GAS_REFRESH_TOKEN }}
+
+      - name: Deploy to Google Sheets
+        env:
+          SCRIPT_ID: ${{ secrets.GAS_SCRIPT_ID }}
+        run: |
+          npm ci
+          npm run push
