@@ -1,4 +1,4 @@
-import { AppendDataToSheetOpts, Sheet } from '@models';
+import { AppendDataToSheetOpts, ReadDataFromSheetOpts, Sheet } from '@models';
 
 export const isSameSheet = (a: Sheet, b: Sheet): boolean => a.getSheetId() === b.getSheetId();
 
@@ -49,3 +49,16 @@ export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, header
 
   newEmptyColsRange.clearContent().setFormulas(formulas);
 };
+
+/** Read all non-empty rows from the sheet and convert them to a list of objects. */
+export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataFromSheetOpts<T>): T[] =>
+  sheet
+    .getRange(1 + (headers ?? 1), 1, sheet.getMaxRows(), sheet.getMaxColumns())
+    .getValues()
+    .reduce((acc, cur) => {
+      if (cur.some(cell => cell)) {
+        acc.push(mapFn(cur));
+      }
+
+      return acc;
+    }, []);
