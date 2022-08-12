@@ -23,7 +23,7 @@ export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, header
 
   const prevNRows = sheet.getMaxRows();
   const newRowsData = members.map(mapFn);
-  const nNewCols = newRowsData[0].length;
+  const nColsNewRows = newRowsData[0].length;
   const firstRow = sheet.getRange(1 + (headers ?? 1), 1, 1, newRowsData.length);
 
   // if the first row is empty, insert a member in it
@@ -33,21 +33,25 @@ export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, header
 
   // append remaining members to the sheet
   sheet
-    .insertRowsAfter(prevNRows, nNewCols)
-    .getRange(prevNRows + 1, 1, newRowsData.length, nNewCols)
+    .insertRowsAfter(prevNRows, newRowsData.length)
+    .getRange(prevNRows + 1, 1, newRowsData.length, nColsNewRows)
     .setValues(newRowsData);
 
-  /** Range of empty columns to the right of the new rows. */
-  const newEmptyColsRange = sheet.getRange(prevNRows + 1, nNewCols + 1, 1, sheet.getMaxColumns());
+  const nColsNotWritten = sheet.getMaxColumns() - nColsNewRows;
 
-  // restore formulas
-  sheet
-    .getRange(prevNRows, nNewCols + 1, 1, sheet.getMaxColumns())
-    .copyTo(newEmptyColsRange, SpreadsheetApp.CopyPasteType.PASTE_FORMULA, false);
+  // restore formulas on columns in which no data was written (if there is any)
+  if (nColsNotWritten) {
+    /** Range of empty columns in which no data was written, to the right of the new rows. */
+    const newEmptyColsRange = sheet.getRange(prevNRows + 1, nColsNewRows + 1, newRowsData.length, nColsNotWritten);
 
-  const formulas = newEmptyColsRange.getFormulas();
+    sheet
+      .getRange(prevNRows, nColsNewRows + 1, 1, nColsNotWritten)
+      .copyTo(newEmptyColsRange, SpreadsheetApp.CopyPasteType.PASTE_FORMULA, false);
 
-  newEmptyColsRange.clearContent().setFormulas(formulas);
+    const formulas = newEmptyColsRange.getFormulas();
+
+    newEmptyColsRange.clearContent().setFormulas(formulas);
+  }
 };
 
 /**
