@@ -2,11 +2,11 @@ import { AppendDataToSheetOpts, ReadDataFromSheetOpts, Sheet } from '@models';
 
 export const isSameSheet = (a: Sheet, b: Sheet): boolean => a.getSheetId() === b.getSheetId();
 
-/** Clear all empty rows in the Sheet, leaving at least one row (empty or not) left. */
+/** Clear all empty rows in the `sheet`, leaving at least one row (empty or not) left. */
 export const clearEmptyRows = (sheet: Sheet) => {
   /** All non-empty data rows in the sheet. */
   const sheetData = sheet
-    .getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
+    .getDataRange()
     .getValues()
     .filter(row => row.every(cell => cell));
 
@@ -50,7 +50,10 @@ export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, header
   newEmptyColsRange.clearContent().setFormulas(formulas);
 };
 
-/** Read all non-empty rows from the sheet and convert them to a list of objects. */
+/**
+ * Read all non-empty rows from the `sheet` and convert them (via `mapFn`) to a list of objects (of type `T`).
+ * Header rows (`headers`) will be ignored.
+ */
 export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataFromSheetOpts<T>): T[] =>
   sheet
     .getRange(1 + (headers ?? 1), 1, sheet.getMaxRows(), sheet.getMaxColumns())
@@ -62,3 +65,5 @@ export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataF
 
       return acc;
     }, []);
+
+export const clearSheet = (sh: Sheet, headers = 1) => sh.getRange(1 + headers, 1, sh.getMaxRows(), sh.getMaxColumns()).clearContent();
