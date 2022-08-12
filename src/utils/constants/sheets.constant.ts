@@ -2,7 +2,7 @@ import { ss } from './globals.constant';
 
 export const enum SheetName {
   Caring = 'Acompanhamento',
-  dashboard = 'Home',
+  Dashboard = 'Home',
   MainData = 'Controle Geral',
   MeetingAttendance = 'Chamada RG',
   NewMembers = 'Novos Membros',
@@ -11,7 +11,7 @@ export const enum SheetName {
 
 export const sheets = {
   caring: ss.getSheetByName(SheetName.Caring),
-  dashboard: ss.getSheetByName(SheetName.dashboard),
+  dashboard: ss.getSheetByName(SheetName.Dashboard),
   mainData: ss.getSheetByName(SheetName.MainData),
   meetingAttendance: ss.getSheetByName(SheetName.MeetingAttendance),
   newMembers: ss.getSheetByName(SheetName.NewMembers),

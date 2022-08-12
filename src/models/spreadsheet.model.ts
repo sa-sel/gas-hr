@@ -3,7 +3,7 @@ export type Range = GoogleAppsScript.Spreadsheet.Range;
 
 interface InteractWithDataSheet<T> {
   /** Function to map each data element to a row. */
-  mapFn: (member: T | any) => (T | any)[];
+  mapFn: (member: T | any[]) => T | any[];
   /**
    * Number of headers in the sheet.
    * @default 1
@@ -18,5 +18,5 @@ export interface AppendDataToSheetOpts<T> extends InteractWithDataSheet<T> {
 
 export interface ReadDataFromSheetOpts<T> extends InteractWithDataSheet<T> {
   /** Function to map each row element to a data object. */
-  mapFn: (member: any) => T[];
+  mapFn: (row: any[]) => T;
 }

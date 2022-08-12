@@ -6,4 +6,6 @@ export const deleteTargetMember = () => {
   const nusp: string = ss.getRangeByName(NamedRange.TargetNusp).getValue();
 
   deleteMemberByNusp(nusp);
+  ss.getRangeByName(NamedRange.SearchTarget).clearContent();
+  ss.toast('Membro excluído.', 'Sucesso!');
 };

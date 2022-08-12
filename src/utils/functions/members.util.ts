@@ -14,5 +14,8 @@ export const deleteMemberByNusp = (nusp: string) => {
   });
 };
 
-export const appendMembersToSheet = (members: MemberModel[], sheet: Sheet, mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp]) =>
-  appendDataToSheet(members, sheet, { mapFn });
+export const appendMembersToSheet = (
+  members: MemberModel[],
+  sheet: Sheet,
+  mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp] as any[],
+) => appendDataToSheet(members, sheet, { mapFn });

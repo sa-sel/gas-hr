@@ -5,7 +5,7 @@ export const enum CourseEmphasis {
 
 export interface MemberModel {
   name: string;
-  nickname: string;
+  nickname?: string;
   nUsp: string;
   phone?: string;
   emphasis?: CourseEmphasis;
