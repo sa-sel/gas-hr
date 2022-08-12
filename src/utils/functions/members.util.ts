@@ -1,5 +1,6 @@
+import { MemberModel, Sheet } from '@models';
 import { ss, syncedDataSheets } from '@utils/constants';
-import { isSameSheet } from './comparison.util';
+import { appendDataToSheet, isSameSheet } from './sheet.util';
 
 export const deleteMemberByNusp = (nusp: string) => {
   const occurrences = ss.createTextFinder(nusp).findAll();
@@ -12,3 +13,6 @@ export const deleteMemberByNusp = (nusp: string) => {
     }
   });
 };
+
+export const appendMembersToSheet = (members: MemberModel[], sheet: Sheet, mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp]) =>
+  appendDataToSheet(members, sheet, { mapFn });
