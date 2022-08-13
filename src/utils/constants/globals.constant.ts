@@ -1,3 +1,4 @@
-export const app = SpreadsheetApp;
-export const ss = app.getActiveSpreadsheet();
-export const ui = app.getUi();
+/** The whole spreadsheet. */
+export const ss = SpreadsheetApp.getActiveSpreadsheet();
+/** The Google app's user interface. */
+export const ui = SpreadsheetApp.getUi();

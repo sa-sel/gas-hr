@@ -6,25 +6,16 @@ import {
   counter,
   getAllSavedNusps,
   isSameSheet,
-  parseDataAsString,
+  parseRowToMember,
   readDataFromSheet,
   validateMember,
 } from '@utils/functions';
 
-export const createNewMembers = () => {
+/** Save the members  */
+export const saveNewMembers = () => {
   const validNewMembers = [];
   const invalidNewMembers = [];
-  const allNewMembers: MemberModel[] = readDataFromSheet(sheets.newMembers, {
-    mapFn: (row: any[]) => ({
-      name: parseDataAsString(row[0]),
-      nickname: parseDataAsString(row[1]),
-      nUsp: parseDataAsString(row[2]),
-      phone: parseDataAsString(row[3]),
-      emphasis: row[4],
-      email: parseDataAsString(row[5]),
-      birthday: row[6],
-    }),
-  });
+  const allNewMembers: MemberModel[] = readDataFromSheet(sheets.newMembers, { mapFn: parseRowToMember });
 
   if (!allNewMembers.length) {
     ss.toast(`Nenhum dado foi encontrado na planilha "${SheetName.NewMembers}".`, 'Erro!');

@@ -1,11 +1,13 @@
 import { NamedRange, ss } from '@utils/constants';
-import { deleteMemberByNusp } from '@utils/functions';
+import { getTargetNusp, manageMemberSyncedDataSheets } from '@utils/functions';
 
-/** Delete the member searched in the dashboard from the spreadsheet. */
+/** Delete the member searched in the dashboard from all synced data sheets. */
 export const deleteTargetMember = () => {
-  const nusp: string = ss.getRangeByName(NamedRange.TargetNusp).getValue();
+  const nusp = getTargetNusp();
 
-  deleteMemberByNusp(nusp);
-  ss.getRangeByName(NamedRange.SearchTarget).clearContent();
-  ss.toast('Membro excluído.', 'Sucesso!');
+  if (nusp) {
+    manageMemberSyncedDataSheets(nusp, (cell, sheet) => sheet.deleteRow(cell.getRow()));
+    ss.getRangeByName(NamedRange.SearchTarget).clearContent();
+    ss.toast('Membro excluído.', 'Sucesso!');
+  }
 };
