@@ -57,16 +57,18 @@ export const createNewMembers = () => {
   clearSheet(sheets.newMembers);
 
   if (invalidNewMembers.length) {
+    // re-write invalid new members to the `new members` table
+    sheets.newMembers
+      .getRange(2, 1, invalidNewMembers.length, sheets.newMembers.getMaxColumns())
+      .setValues(invalidNewMembers.map(m => [m.name, m.nickname, m.nUsp, m.phone, m.emphasis, m.email, m.birthday]))
+      .activate();
+
     ss.toast(
       `Há membros com nome/nº USP ausentes ou nº USP repetido/inválido na planilha "${SheetName.NewMembers}".`,
       'Erro! Dados inválidos.',
     );
-
-    // re-write invalid new members to the `new members` table
-    sheets.newMembers
-      .getRange(2, 1, invalidNewMembers.length, sheets.newMembers.getMaxColumns())
-      .setValues(invalidNewMembers.map(m => [m.name, m.nickname, m.nUsp, m.phone, m.emphasis, m.email, m.birthday]));
   } else {
+    sheets.mainData.getRange(sheets.mainData.getLastRow(), 1).activate();
     ss.toast('Os membros foram salvos.', 'Sucesso!');
   }
 };
