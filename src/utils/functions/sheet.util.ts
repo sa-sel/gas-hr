@@ -71,3 +71,5 @@ export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataF
     }, []);
 
 export const clearSheet = (sh: Sheet, headers = 1) => sh.getRange(1 + headers, 1, sh.getMaxRows(), sh.getMaxColumns()).clearContent();
+
+export const parseDataAsString = (data: any) => `${data}`.trim().trimEnd();

@@ -1,5 +1,5 @@
 import { MemberModel, Sheet } from '@models';
-import { ss, syncedDataSheets } from '@utils/constants';
+import { NamedRange, ss, syncedDataSheets } from '@utils/constants';
 import { appendDataToSheet, isSameSheet } from './sheet.util';
 
 export const deleteMemberByNusp = (nusp: string) => {
@@ -19,3 +19,7 @@ export const appendMembersToSheet = (
   sheet: Sheet,
   mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp] as any[],
 ) => appendDataToSheet(members, sheet, { mapFn });
+
+export const getAllSavedNusps = (): Set<string> => new Set(ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat());
+
+export const validateMember = (member: MemberModel) => member.name && /^\d{7,}$/.test(member.nUsp);
