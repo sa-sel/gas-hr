@@ -12,3 +12,9 @@ export interface MemberModel {
   email?: string;
   birthday?: Date;
 }
+
+export interface MemberUpdateModel {
+  name?: string;
+  nickname?: string;
+  nUsp?: string;
+}
