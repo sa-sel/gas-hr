@@ -11,7 +11,7 @@ import {
   validateMember,
 } from '@utils/functions';
 
-/** Save the members  */
+/** Save the members listed in the "new members" sheet to all synced data sheets. */
 export const saveNewMembers = () => {
   const validNewMembers = [];
   const invalidNewMembers = [];
@@ -41,18 +41,22 @@ export const saveNewMembers = () => {
         ...[m.name, m.nickname, m.nUsp],
         ...(isSameSheet(sheet, sheets.mainData) ? [m.phone, m.emphasis, m.email, m.birthday] : []),
       ]);
+
+      sheet.sort(1);
     });
+
+    ss.toast(`Limpando os dados da planilha "${SheetName.NewMembers}".`, 'Finalizando...');
+    clearSheet(sheets.newMembers);
   }
 
-  ss.toast(`Limpando os dados da planilha "${SheetName.NewMembers}".`, 'Finalizando...');
-  clearSheet(sheets.newMembers);
-
   if (invalidNewMembers.length) {
-    // re-write invalid new members to the `new members` table
-    sheets.newMembers
-      .getRange(2, 1, invalidNewMembers.length, sheets.newMembers.getMaxColumns())
-      .setValues(invalidNewMembers.map(m => [m.name, m.nickname, m.nUsp, m.phone, m.emphasis, m.email, m.birthday]))
-      .activate();
+    if (!validNewMembers.length) {
+      // re-write invalid new members to the `new members` table
+      sheets.newMembers
+        .getRange(2, 1, invalidNewMembers.length, sheets.newMembers.getMaxColumns())
+        .setValues(invalidNewMembers.map(m => [m.name, m.nickname, m.nUsp, m.phone, m.emphasis, m.email, m.birthday]))
+        .activate();
+    }
 
     ss.toast(
       `Há membros com nome/nº USP ausentes ou nº USP repetido/inválido na planilha "${SheetName.NewMembers}".`,
