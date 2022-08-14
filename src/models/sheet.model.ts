@@ -4,10 +4,7 @@ export type Range = GoogleAppsScript.Spreadsheet.Range;
 interface InteractWithDataSheet<T> {
   /** Function to map each data element to a row. */
   mapFn: (member: T | any[]) => T | any[];
-  /**
-   * Number of headers in the sheet.
-   * @default 1
-   */
+  /** Number of headers in the sheet. Defaults number of frozen rows. */
   headers?: number;
 }
 

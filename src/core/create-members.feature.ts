@@ -50,7 +50,7 @@ export const saveNewMembers = () => {
   }
 
   if (invalidNewMembers.length) {
-    if (!validNewMembers.length) {
+    if (validNewMembers.length) {
       // re-write invalid new members to the `new members` table
       sheets.newMembers
         .getRange(2, 1, invalidNewMembers.length, sheets.newMembers.getMaxColumns())

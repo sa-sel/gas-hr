@@ -16,15 +16,15 @@ export const clearEmptyRows = (sheet: Sheet) => {
   sheet.getRange(1, 1, sheetData.length, sheetData[0].length).setValues(sheetData);
 };
 
-export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, headers }: AppendDataToSheetOpts<T>) => {
+export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, headers = sheet.getFrozenRows() }: AppendDataToSheetOpts<T>) => {
   if (!members.length) {
     return;
   }
 
-  const prevNRows = sheet.getMaxRows();
+  const prevNRows = sheet.getLastRow();
   const newRowsData = members.map(mapFn);
   const nColsNewRows = newRowsData[0].length;
-  const firstRow = sheet.getRange(1 + (headers ?? 1), 1, 1, newRowsData.length);
+  const firstRow = sheet.getRange(1 + headers, 1, 1, newRowsData.length);
 
   // if the first row is empty, insert a member in it
   if (!firstRow.getValues()[0].reduce((acc, cur) => acc || cur)) {
@@ -58,9 +58,9 @@ export const appendDataToSheet = <T>(members: T[], sheet: Sheet, { mapFn, header
  * Read all non-empty rows from the `sheet` and convert them (via `mapFn`) to a list of objects (of type `T`).
  * Header rows (`headers`) will be ignored.
  */
-export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataFromSheetOpts<T>): T[] =>
+export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers = sheet.getFrozenRows() }: ReadDataFromSheetOpts<T>): T[] =>
   sheet
-    .getRange(1 + (headers ?? 1), 1, sheet.getMaxRows(), sheet.getMaxColumns())
+    .getRange(1 + headers, 1, sheet.getMaxRows(), sheet.getMaxColumns())
     .getValues()
     .reduce((acc, cur) => {
       if (cur.some(cell => cell)) {
@@ -70,6 +70,7 @@ export const readDataFromSheet = <T>(sheet: Sheet, { mapFn, headers }: ReadDataF
       return acc;
     }, []);
 
-export const clearSheet = (sh: Sheet, headers = 1) => sh.getRange(1 + headers, 1, sh.getMaxRows(), sh.getMaxColumns()).clearContent();
+export const clearSheet = (sh: Sheet, headers = sh.getFrozenRows()) =>
+  sh.getRange(1 + headers, 1, sh.getMaxRows(), sh.getMaxColumns()).clearContent();
 
 export const parseDataAsString = (data: any) => `${data}`.trim();
