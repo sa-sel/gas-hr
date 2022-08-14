@@ -1,5 +1,5 @@
 import { MemberModel, MemberUpdateModel } from '@models';
-import { NamedRange, ss, ui } from '@utils/constants';
+import { DialogTitle, NamedRange, ss, ui } from '@utils/constants';
 import { editMember, getMemberData, getTargetNusp, validateNusp } from '@utils/functions';
 
 const describeModal = (member: MemberModel, attribute: string) =>
@@ -17,7 +17,7 @@ const editTargetMember = (attribute: keyof MemberUpdateModel, attributeDescripto
   const nusp = getTargetNusp();
 
   if (!nusp) {
-    ss.toast('Nenhum membro selecionado', 'Erro!');
+    ss.toast('Nenhum membro selecionado.', DialogTitle.Error);
 
     return;
   }
@@ -30,7 +30,7 @@ const editTargetMember = (attribute: keyof MemberUpdateModel, attributeDescripto
       const searchType = ss.getRangeByName(NamedRange.SearchType).getValue().toLowerCase();
 
       if (!newValue || (validator && !validator(newValue))) {
-        ss.toast(`O ${attributeDescriptor.toLowerCase()} escolhido é inválido: "${newValue}".`, 'Erro!');
+        ss.toast(`O ${attributeDescriptor.toLowerCase()} escolhido é inválido: "${newValue}".`, DialogTitle.Error);
 
         return;
       }
@@ -42,13 +42,13 @@ const editTargetMember = (attribute: keyof MemberUpdateModel, attributeDescripto
         ss.getRangeByName(NamedRange.SearchTarget).setValue(newValue);
       }
 
-      ss.toast(`Edição de membro concluída, ${attributeDescriptor} atualizado.`, 'Sucesso!');
+      ss.toast(`Edição de membro concluída, ${attributeDescriptor} atualizado.`, DialogTitle.Success);
 
       break;
     }
 
     default: {
-      ss.toast('Edição de membro cancelada.', 'Operação abortada!');
+      ss.toast('Edição de membro cancelada.', DialogTitle.Aborted);
     }
   }
 };

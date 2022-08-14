@@ -1,5 +1,5 @@
 import { MemberModel } from '@models';
-import { SheetName, sheets, ss, syncedDataSheets } from '@utils/constants';
+import { DialogTitle, SheetName, sheets, ss, syncedDataSheets } from '@utils/constants';
 import {
   appendMembersToSheet,
   clearSheet,
@@ -18,7 +18,7 @@ export const saveNewMembers = () => {
   const allNewMembers: MemberModel[] = readDataFromSheet(sheets.newMembers, { mapFn: parseRowToMember });
 
   if (!allNewMembers.length) {
-    ss.toast(`Nenhum dado foi encontrado na planilha "${SheetName.NewMembers}".`, 'Erro!');
+    ss.toast(`Nenhum dado foi encontrado na planilha "${SheetName.NewMembers}".`, DialogTitle.Error);
 
     return;
   }
@@ -60,10 +60,10 @@ export const saveNewMembers = () => {
 
     ss.toast(
       `Há membros com nome/nº USP ausentes ou nº USP repetido/inválido na planilha "${SheetName.NewMembers}".`,
-      'Erro! Dados inválidos.',
+      `${DialogTitle.Error} Dados inválidos.`,
     );
   } else {
     sheets.mainData.getRange(sheets.mainData.getLastRow(), 1).activate();
-    ss.toast('Os membros foram salvos.', 'Sucesso!');
+    ss.toast('Os membros foram salvos.', DialogTitle.Success);
   }
 };

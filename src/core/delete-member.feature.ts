@@ -1,4 +1,4 @@
-import { NamedRange, ss, ui } from '@utils/constants';
+import { DialogTitle, NamedRange, ss, ui } from '@utils/constants';
 import { getMemberData, getTargetNusp, manageMemberSyncedDataSheets } from '@utils/functions';
 
 /** Delete the member searched in the dashboard from all synced data sheets. */
@@ -20,12 +20,12 @@ export const deleteTargetMember = () => {
     case ui.Button.YES: {
       manageMemberSyncedDataSheets(nusp, (cell, sheet) => sheet.deleteRow(cell.getRow()));
       ss.getRangeByName(NamedRange.SearchTarget).clearContent();
-      ss.toast('Membro excluído.', 'Sucesso!');
+      ss.toast('Membro excluído.', DialogTitle.Success);
       break;
     }
 
     default: {
-      ss.toast('Exclusão de membro cancelada.', 'Operação abortada!');
+      ss.toast('Exclusão de membro cancelada.', DialogTitle.Aborted);
     }
   }
 };
