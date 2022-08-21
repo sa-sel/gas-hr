@@ -1,11 +1,15 @@
 {
   "scripts": {
-    "prepare": "scripts/setup-clasp.sh; husky install; scripts/init-submodules.sh",
+    "clasp": "scripts/setup-clasp.sh",
+    "prepare": "npm run clasp; husky install; scripts/init-submodules.sh",
     "rollup": "rollup --config .rollup.js",
     "build": "mkdir -p .build && cp -r src/* .build && npm run rollup",
     "format": "eslint . --fix --quiet; prettier --write .",
     "lint": "eslint . && prettier --check",
     "push": "scripts/push.sh"
+  },
+  "dependencies": {
+    "sa-sel-gas-library": "file:src/lib"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -24,7 +28,6 @@
     "prettier": "^2.6.2",
     "rollup": "^2.77.2",
     "rollup-plugin-typescript-paths": "^1.3.1",
-    "sa-sel-gas-library": "file:src/lib",
     "typescript": "^4.3.5"
   },
   "lint-staged": {
