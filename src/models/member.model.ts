@@ -1,7 +1,4 @@
-export const enum CourseEmphasis {
-  Automation = 'Automação',
-  Electronics = 'Eletrônica',
-}
+import { CourseEmphasis } from '@lib/models';
 
 export interface MemberModel {
   name: string;

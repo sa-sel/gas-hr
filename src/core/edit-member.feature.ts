@@ -1,5 +1,6 @@
+import { DialogTitle, ss, ui } from '@lib/constants';
 import { MemberModel, MemberUpdateModel } from '@models';
-import { DialogTitle, NamedRange, ss, ui } from '@utils/constants';
+import { NamedRange } from '@utils/constants';
 import { editMember, getMemberData, getTargetNusp, validateNusp } from '@utils/functions';
 
 const describeModal = (member: MemberModel, attribute: string) =>

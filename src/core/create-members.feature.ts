@@ -1,15 +1,8 @@
+import { DialogTitle, ss } from '@lib/constants';
+import { clearSheet, isSameSheet, readDataFromSheet } from '@lib/fuctions';
 import { MemberModel } from '@models';
-import { DialogTitle, SheetName, sheets, ss, syncedDataSheets } from '@utils/constants';
-import {
-  appendMembersToSheet,
-  clearSheet,
-  counter,
-  getAllSavedNusps,
-  isSameSheet,
-  parseRowToMember,
-  readDataFromSheet,
-  validateMember,
-} from '@utils/functions';
+import { SheetName, sheets, syncedDataSheets } from '@utils/constants';
+import { appendMembersToSheet, counter, getAllSavedNusps, parseRowToMember, validateMember } from '@utils/functions';
 
 /** Save the members listed in the "new members" sheet to all synced data sheets. */
 export const saveNewMembers = () => {

@@ -9,6 +9,13 @@ const preventTreeShakingPlugin = {
   resolveId: (id, importer) => (importer ? null : { id, moduleSideEffects: 'no-treeshake' }),
 };
 
+const isGithub = process.env.ENV === 'GITHUB';
+const minified = {
+  comments: false,
+  compact: true,
+  minified: true,
+};
+
 const config = {
   input: './src/index.ts',
   output: { dir: '.build', format: 'esm' },
@@ -20,6 +27,8 @@ const config = {
       extensions,
       babelHelpers: 'runtime',
       exclude: ['node_modules/**'],
+      configFile: './.babelrc.js',
+      ...(isGithub ? minified : {}),
     }),
   ],
 };

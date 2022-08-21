@@ -1,4 +1,4 @@
-import { ss } from './globals.constant';
+import { ss } from '@lib/constants';
 
 export const enum SheetName {
   CaringMembers = 'Acompanhamento - Membros',

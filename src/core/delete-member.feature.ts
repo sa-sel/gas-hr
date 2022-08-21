@@ -1,4 +1,5 @@
-import { DialogTitle, NamedRange, ss, ui } from '@utils/constants';
+import { DialogTitle, ss, ui } from '@lib/constants';
+import { NamedRange } from '@utils/constants';
 import { getMemberData, getTargetNusp, manageMemberSyncedDataSheets } from '@utils/functions';
 
 /** Delete the member searched in the dashboard from all synced data sheets. */

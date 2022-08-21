@@ -1,6 +1,8 @@
-import { MemberModel, MemberUpdateModel, Range, Sheet } from '@models';
-import { NamedRange, sheets, ss, syncedDataSheets } from '@utils/constants';
-import { appendDataToSheet, isSameSheet, parseDataAsString } from './sheet.util';
+import { ss } from '@lib/constants';
+import { appendDataToSheet, isSameSheet, parseDataToString } from '@lib/fuctions';
+import { Range, Sheet } from '@lib/models';
+import { MemberModel, MemberUpdateModel } from '@models';
+import { NamedRange, sheets, syncedDataSheets } from '@utils/constants';
 
 export const getAllSavedNusps = (): Set<string> => new Set(ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat());
 
@@ -11,12 +13,12 @@ export const validateMember = (member: MemberModel): boolean => member.name && v
 export const getTargetNusp = (): string => ss.getRangeByName(NamedRange.TargetNusp).getValue();
 
 export const parseRowToMember = (row: any[]) => ({
-  name: parseDataAsString(row[0]),
-  nickname: parseDataAsString(row[1]),
-  nUsp: parseDataAsString(row[2]),
-  phone: parseDataAsString(row[3]),
+  name: parseDataToString(row[0]),
+  nickname: parseDataToString(row[1]),
+  nUsp: parseDataToString(row[2]),
+  phone: parseDataToString(row[3]),
   emphasis: row[4],
-  email: parseDataAsString(row[5]),
+  email: parseDataToString(row[5]),
   birthday: row[6],
 });
 

@@ -1,4 +1,5 @@
-import { NamedRange, ss, ui } from '@utils/constants';
+import { ss, ui } from '@lib/constants';
+import { NamedRange } from '@utils/constants';
 import { saveNewMembers } from './create-members.feature';
 import { editTargetMemberName, editTargetMemberNickname, editTargetMemberNusp } from './edit-member.feature';
 import { trackMeetingAttendance } from './meeting-attendance.feature';

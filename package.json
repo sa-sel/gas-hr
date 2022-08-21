@@ -1,15 +1,13 @@
 {
   "scripts": {
-    "prepare": "./scripts/setup-clasp.sh; husky install",
-    "transpile": "babel src --out-dir .build --extensions \"\" --copy-files",
-    "rollup": "rollup --config ./.rollup.js",
-    "build": "npm run transpile && npm run rollup",
+    "prepare": "scripts/setup-clasp.sh; husky install; scripts/init-submodules.sh",
+    "rollup": "rollup --config .rollup.js",
+    "build": "mkdir -p .build && cp -r src/* .build && npm run rollup",
     "format": "eslint . --fix --quiet; prettier --write .",
     "lint": "eslint . && prettier --check",
-    "push": "./scripts/push.sh"
+    "push": "scripts/push.sh"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.9",
     "@babel/core": "^7.18.9",
     "@babel/plugin-transform-runtime": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
@@ -17,7 +15,6 @@
     "@google/clasp": "^2.4.1",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^8.3.4",
     "@types/google-apps-script": "^1.0.53",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
@@ -27,6 +24,7 @@
     "prettier": "^2.6.2",
     "rollup": "^2.77.2",
     "rollup-plugin-typescript-paths": "^1.3.1",
+    "sa-sel-gas-library": "file:src/lib",
     "typescript": "^4.3.5"
   },
   "lint-staged": {
