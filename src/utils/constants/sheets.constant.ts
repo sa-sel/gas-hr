@@ -6,6 +6,7 @@ export const enum SheetName {
   Dashboard = 'Home',
   MainData = 'Controle Geral',
   MeetingAttendance = 'Chamada RG',
+  MeetingAttendanceChart = 'Gráfico (RGs)',
   NewMembers = 'Novos Membros',
   ProjectMemberships = 'Diretorias e Projetos',
 }
@@ -15,6 +16,7 @@ export const sheets = {
   dashboard: ss.getSheetByName(SheetName.Dashboard),
   mainData: ss.getSheetByName(SheetName.MainData),
   meetingAttendance: ss.getSheetByName(SheetName.MeetingAttendance),
+  meetingAttendanceChart: ss.getSheetByName(SheetName.MeetingAttendanceChart),
   newMembers: ss.getSheetByName(SheetName.NewMembers),
   projectMemberships: ss.getSheetByName(SheetName.ProjectMemberships),
 };
