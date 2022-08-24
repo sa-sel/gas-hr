@@ -6,7 +6,7 @@ import { NamedRange, sheets, syncedDataSheets } from '@utils/constants';
 
 export const getAllSavedNusps = (): Set<string> => new Set(ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat());
 
-export const validateNusp = (nusp: string): boolean => /^\d{7,}$/.test(nusp);
+export const validateNusp = (nusp: string): boolean => /^\d{7,}$/.test(nusp) && !getAllSavedNusps().has(nusp);
 
 export const validateMember = (member: MemberModel): boolean => member.name && validateNusp(member.nUsp);
 

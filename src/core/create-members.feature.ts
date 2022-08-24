@@ -2,7 +2,7 @@ import { DialogTitle, ss } from '@lib/constants';
 import { clearSheet, isSameSheet, readDataFromSheet } from '@lib/fuctions';
 import { MemberModel } from '@models';
 import { SheetName, sheets, syncedDataSheets } from '@utils/constants';
-import { appendMembersToSheet, counter, getAllSavedNusps, parseRowToMember, validateMember } from '@utils/functions';
+import { appendMembersToSheet, counter, parseRowToMember, validateMember } from '@utils/functions';
 
 /** Save the members listed in the "new members" sheet to all synced data sheets. */
 export const saveNewMembers = () => {
@@ -16,12 +16,11 @@ export const saveNewMembers = () => {
     return;
   }
 
-  const allMembersNusp = getAllSavedNusps();
   const allNewMembersNusp = counter(allNewMembers.map(member => member.nUsp));
 
   // validate members
   allNewMembers.forEach(member => {
-    const isValid = validateMember(member) && !allMembersNusp.has(member.nUsp) && allNewMembersNusp[member.nUsp] === 1;
+    const isValid = validateMember(member) && allNewMembersNusp[member.nUsp] === 1;
 
     (isValid ? validNewMembers : invalidNewMembers).push(member);
   });
