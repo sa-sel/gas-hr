@@ -1,18 +1,10 @@
+import { addColsToSheet } from '@lib/fuctions';
 import { sheets } from '@utils/constants';
 
+/** Init tracking for today's meeting. */
 export const trackMeetingAttendance = () => {
-  const pos = sheets.meetingAttendance.getLastColumn();
-
-  // insert new column and set it to the current date
-  sheets.meetingAttendance
-    .insertColumnAfter(pos)
-    .getRange(1, pos + 1)
-    .setValue(new Date());
-
-  // apply header formula to new column
-  sheets.meetingAttendance
-    .getRange(2, pos)
-    .copyTo(sheets.meetingAttendance.getRange(2, pos + 1), SpreadsheetApp.CopyPasteType.PASTE_FORMULA, false);
+  const nCols = addColsToSheet(sheets.meetingAttendance, [new Date()]);
+  const nFrozenCols = sheets.meetingAttendance.getFrozenColumns();
 
   // update range in chart
   const meetingAttendanceChart = sheets.meetingAttendanceChart
@@ -20,8 +12,9 @@ export const trackMeetingAttendance = () => {
     .pop()
     ?.modify()
     .clearRanges()
-    .addRange(sheets.meetingAttendance.getRange(1, sheets.meetingAttendance.getFrozenColumns() + 1, 2, pos + 1))
+    .addRange(sheets.meetingAttendance.getRange(1, nFrozenCols + 1, 2, nCols - nFrozenCols))
     .setOption('areaOpacity', 0.5)
+    .setOption('series', { 0: { color: 'black' } })
     .setOption('trendlines', { 0: { color: 'black', opacity: 0.7 } })
     .setOption('hAxis', { title: 'Data da RG' })
     .setOption('vAxis', { title: 'Número de membros presentes', gridlines: { count: 0 } })
@@ -30,5 +23,5 @@ export const trackMeetingAttendance = () => {
   meetingAttendanceChart && sheets.meetingAttendanceChart.updateChart(meetingAttendanceChart);
 
   // select first member's cell in new column
-  sheets.meetingAttendance.getRange(3, pos + 1).activate();
+  sheets.meetingAttendance.getRange(3, nCols).activate();
 };

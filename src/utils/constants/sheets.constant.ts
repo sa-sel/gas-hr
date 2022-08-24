@@ -12,7 +12,8 @@ export const enum SheetName {
 }
 
 export const sheets = {
-  caring: ss.getSheetByName(SheetName.CaringMembers),
+  caringMembers: ss.getSheetByName(SheetName.CaringMembers),
+  caringProjects: ss.getSheetByName(SheetName.CaringProjects),
   dashboard: ss.getSheetByName(SheetName.Dashboard),
   mainData: ss.getSheetByName(SheetName.MainData),
   meetingAttendance: ss.getSheetByName(SheetName.MeetingAttendance),
@@ -22,4 +23,4 @@ export const sheets = {
 };
 
 /** Sheets that contain data for each member and must be kept synced. */
-export const syncedDataSheets = [sheets.caring, sheets.mainData, sheets.meetingAttendance, sheets.projectMemberships];
+export const syncedDataSheets = [sheets.caringMembers, sheets.mainData, sheets.meetingAttendance, sheets.projectMemberships];
