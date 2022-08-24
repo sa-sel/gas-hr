@@ -4,6 +4,7 @@ import { saveNewMembers } from './create-members.feature';
 import { createProject } from './create-project.feature';
 import { deleteProject } from './delete-project.feature';
 import { editTargetMemberName, editTargetMemberNickname, editTargetMemberNusp } from './edit-member.feature';
+import { help } from './help.feature';
 import { trackMeetingAttendance } from './meeting-attendance.feature';
 
 export const onOpen = () => {
@@ -24,4 +25,6 @@ export const onOpen = () => {
   ui.createMenu('[RGs]').addItem('Marcar Frequência em RG', trackMeetingAttendance.name).addToUi();
 
   ui.createMenu('[Projetos]').addItem('Criar Novo Projeto', createProject.name).addItem('Excluir Projeto', deleteProject.name).addToUi();
+
+  ui.createMenu('[Socorro! Como que usa essa planilha?]').addItem('Clique aqui e descubra!', help.name).addToUi();
 };
