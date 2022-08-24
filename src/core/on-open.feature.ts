@@ -2,6 +2,7 @@ import { ss, ui } from '@lib/constants';
 import { NamedRange } from '@utils/constants';
 import { saveNewMembers } from './create-members.feature';
 import { createProject } from './create-project.feature';
+import { deleteProject } from './delete-project.feature';
 import { editTargetMemberName, editTargetMemberNickname, editTargetMemberNusp } from './edit-member.feature';
 import { trackMeetingAttendance } from './meeting-attendance.feature';
 
@@ -22,5 +23,5 @@ export const onOpen = () => {
 
   ui.createMenu('[RGs]').addItem('Marcar Frequência em RG', trackMeetingAttendance.name).addToUi();
 
-  ui.createMenu('[Projetos]').addItem('Criar Novo Projeto', createProject.name).addToUi();
+  ui.createMenu('[Projetos]').addItem('Criar Novo Projeto', createProject.name).addItem('Excluir Projeto', deleteProject.name).addToUi();
 };

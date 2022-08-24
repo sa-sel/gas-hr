@@ -30,15 +30,15 @@ export const appendMembersToSheet = (
 
 /** Run a function to manage the member in each synced data sheet. */
 export const manageMemberSyncedDataSheets = (nusp: string, fn: (nuspCell: Range, sheet: Sheet) => any): void => {
-  const occurrences = ss.createTextFinder(nusp).findAll();
+  ss.createTextFinder(nusp)
+    .findAll()
+    .forEach(cell => {
+      const occurrenceSheet = cell.getSheet();
 
-  occurrences.forEach(cell => {
-    const occurrenceSheet = cell.getSheet();
-
-    if (syncedDataSheets.some(sheet => isSameSheet(sheet, occurrenceSheet))) {
-      fn(cell, occurrenceSheet);
-    }
-  });
+      if (syncedDataSheets.some(sheet => isSameSheet(sheet, occurrenceSheet))) {
+        fn(cell, occurrenceSheet);
+      }
+    });
 };
 
 export const editMember = (nusp: string, updates: MemberUpdateModel): void =>
