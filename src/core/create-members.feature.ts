@@ -8,7 +8,7 @@ import { appendMembersToSheet, counter, parseRowToMember, validateMember } from 
 export const saveNewMembers = () => {
   const validNewMembers = [];
   const invalidNewMembers = [];
-  const allNewMembers: MemberModel[] = readDataFromSheet(sheets.newMembers, { mapFn: parseRowToMember });
+  const allNewMembers: MemberModel[] = readDataFromSheet(sheets.newMembers, parseRowToMember);
 
   if (!allNewMembers.length) {
     ss.toast(`Nenhum dado foi encontrado na planilha "${SheetName.NewMembers}".`, DialogTitle.Error);
@@ -55,7 +55,7 @@ export const saveNewMembers = () => {
       `${DialogTitle.Error} Dados inválidos.`,
     );
   } else {
-    sheets.mainData.getRange(sheets.mainData.getLastRow(), 1).activate();
+    sheets.mainData.getRange(1, 1).activate();
     ss.toast('Os membros foram salvos.', DialogTitle.Success);
   }
 };

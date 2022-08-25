@@ -2,7 +2,7 @@ import { ss } from '@lib/constants';
 
 export const enum SheetName {
   CaringMembers = 'Acompanhamento - Membros',
-  CaringProjects = 'Acompanhamento - Projetos/Diretorias',
+  CaringProjects = 'Acompanhamento - Diretorias/Projetos',
   Dashboard = 'Home',
   MainData = 'Controle Geral',
   MeetingAttendance = 'Chamada RG',

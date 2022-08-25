@@ -26,7 +26,7 @@ export const appendMembersToSheet = (
   members: MemberModel[],
   sheet: Sheet,
   mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp] as any[],
-): void => appendDataToSheet(members, sheet, { mapFn });
+): void => appendDataToSheet(members, sheet, mapFn);
 
 /** Run a function to manage the member in each synced data sheet. */
 export const manageMemberSyncedDataSheets = (nusp: string, fn: (nuspCell: Range, sheet: Sheet) => any): void => {

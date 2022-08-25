@@ -20,14 +20,12 @@ export const createProject = () => {
     return;
   }
 
-  // insert the project into the project membership sheet
-  const nCols = addColsToSheet(sheets.projectMemberships, [projectName]);
-
-  // insert the project into the project caring sheet
-  appendDataToSheet([{ projectName }], sheets.caringProjects, { mapFn: ({ projectName }) => [projectName] });
+  // insert the project into the project membership sheet and project caring sheets
+  addColsToSheet(sheets.projectMemberships, [projectName]);
+  appendDataToSheet([{ projectName }], sheets.caringProjects, ({ projectName }) => [projectName]);
 
   ss.toast(`Criação de projeto concluída: "${projectName}.`, DialogTitle.Success);
 
   // select first member's cell in new column
-  sheets.projectMemberships.getRange(3, nCols).activate();
+  sheets.projectMemberships.getRange(3, sheets.projectMemberships.getMaxColumns()).activate();
 };
