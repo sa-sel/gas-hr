@@ -33,7 +33,7 @@
     "default-param-last": "error",
     "dot-notation": "error",
     "eqeqeq": "error",
-    "lines-between-class-members": "error",
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "multiline-ternary": ["warn", "always-multiline"],
     "no-duplicate-imports": "error",
     "no-eval": "error",
@@ -63,6 +63,8 @@
           "private-field",
           "public-field",
           "constructor",
+          "get",
+          "set",
           "decorated-method",
           "public-method",
           "private-method"

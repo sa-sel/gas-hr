@@ -1,0 +1,18 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+TYPE_OPTIONS="feat|fix|refactor|chore|build|docs|style|perf"
+ISSUE_FORMAT="#[0-9]{1,}"
+MESSAGE_FORMAT="[^a-z].{2,58}[a-zA-Z0-9]"
+
+MSG_FILE=$1
+MSG_REGEX="($TYPE_OPTIONS)(\(\S{2,7}\)){0,1}( $ISSUE_FORMAT){0,1}(, $ISSUE_FORMAT){0,}: $MESSAGE_FORMAT"
+MERGE_REGEX="(Merge [a-z-]+ branch|Merge branch|Merge tag|Merged in|pull) .+"
+
+test "" = "$(grep -E "^($MSG_REGEX|($MERGE_REGEX))\$" "$MSG_FILE")" && {
+  printf "\n❌ The commit message does not follow the policy.\n"
+  printf "⚠️ It should follow the pattern \"<type>(<scope>) <TASK>: Commit message\" (e.g.: 'feat(email) #7: Create \"email preview\" view'). For more guidelines, read the project's README.\n\n"
+  exit 1
+}
+
+echo "🟩 Commit message follows the policy!"

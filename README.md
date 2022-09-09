@@ -6,6 +6,7 @@
 2. [Setup](#setup)
    1. [Environment Variables](#environment-variables)
    2. [Depencencies](#dependencies)
+   3. [Clasp](#clasp)
 3. [Development](#Developtment)
    1. [Directory Structure](#directory-structure)
    2. [Formatting and Conventions](#formatting)
@@ -75,9 +76,67 @@ Aside from that, document your code with [TSDoc](https://tsdoc.org/)-style comme
 
 ### <a id="commit"></a> Commit Messages
 
-Write commit messages following this [style guide](https://commit.style/) and be sure to make use of `git commit --amend` and `--no-edit` when necessary. Write commit message that actually describe (summarize) the changes you made - do not commit stuff like `Fix bug`, `Fix`, `Fix bug 3`, `Fix bug (again)`.
+Write commit messages following the following convention:
 
-Aside from that, start all your commit messages with `#<ISSUE/TASK_NUMBER> - `. For example, when working on a task `#7`, you commit the creation of a view that previews an email: `#7 - Create "email preview" view`.
+#### Commit title
+
+The commit message must be written in english and with the following format
+
+```
+<type>(<optional scope>) [<ISSUE>] Commit message
+```
+
+For example, when working on a task `#7`, you commit the creation of a view that previews an email: `feat(email) #7: Create "email preview" view`.
+
+Aside from that, be sure to make use of `git commit --amend` and `--no-edit` when necessary. Write commit message that actually describe (summarize) the changes you made - do not commit stuff like `Fix bug`, `Fix`, `Fix bug 3`, `Fix bug (again)`.
+
+The message's fields are described in detail below. For more reference, see [this style guide](https://www.conventionalcommits.org/en/v1.0.0/) and the [Angular commit message guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit).
+
+This commit message convention will be checked via git hooks.
+
+#### **\<type\>** field
+
+O campo **type** deve ser uma das seguintes opções:
+
+- **build**: changes to the build system or dependencies;
+- **chore**: maintenance/technical task that does not necessarily relate to a user story/new feature;
+- **ci**: changes to the CI/CD (GitHub actions) config files and scripts;
+- **docs**: documentation changes;
+- **feat**: a new feature;
+- **fix**: a bug fix;
+- **perf**: a code change that improves performance;
+- **refactor**: a code change that neither fixes a bug nor adds a feature;
+- **style**: changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc).
+
+#### **(\<scope\>)** field
+
+The scope field is optional and must consist of a noun describing a section of the codebase surrounded by parenthesis, e.g., `fix(parser)`.
+
+#### **\<ISSUE\>** field
+
+It must be the issue code - e.g. `#7`.
+
+#### **Commit message** field
+
+This is the actual message that must summarize the code changes in a short phrase. The message must follow the rules:
+
+- Be capitalized;
+- Be in english;
+- Use the _imperative present tense_ (e.g. "change" instead of "changed" or "changes");
+- No trailing punctuation (period, exclamation, etc);
+- Be at most 60 characters long;
+
+### <a id="deploy"></a> Deploying to GAS
+
+In the [Dependencies](#dependencies) section, you linked your local environment to the GAS project. If you ever change the `SCRIPT_ID` and need to re-link, either run `npm install` again or `scripts/setup-clasp.sh`.
+
+To deploy your code to the GAS project after you edited it, simply run:
+
+```bash
+npm run push
+```
+
+PS: You don't need to deploy to the project's main script - it will be done every time a PR is merged to the `main` branch.
 
 ### <a id="deploy"></a> Deploying to GAS
 
