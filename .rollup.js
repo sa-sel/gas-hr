@@ -17,7 +17,7 @@ const minified = {
 };
 
 const config = {
-  input: './src/index.ts',
+  input: './.build/index.ts',
   output: { dir: '.build', format: 'esm' },
   plugins: [
     typescriptPaths({ absolute: false, preserveExtensions: true }),
