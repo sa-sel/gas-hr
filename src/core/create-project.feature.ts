@@ -1,9 +1,32 @@
 import { DialogTitle, GS } from '@lib/constants';
 import { addColsToSheet, appendDataToSheet } from '@lib/functions';
-import { sheets } from '@utils/constants';
+import { ProjectMemberModel, ProjectRole } from '@models';
+import { NamedRange, sheets } from '@utils/constants';
 
-/** Create a new project in all sheets related to them. */
-export const createProject = () => {
+/** Create a new project with its members.*/
+export const createProject = (name: string, members: ProjectMemberModel[]) => {
+  const newColData = [[name]];
+
+  if (members.length) {
+    const allMembersNusp = GS.ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat();
+    const projectRoleByNusp: Record<string, ProjectRole> = {};
+    const projetMembersNusp = new Set(members.map(member => {
+      projectRoleByNusp[member.nUsp] = member.role;
+
+      return member.nUsp;
+    }));
+
+    allMembersNusp.forEach(nUsp => {
+      newColData.push([projetMembersNusp.has(nUsp) ? projectRoleByNusp[nUsp] : undefined]);
+    });
+  }
+
+  addColsToSheet(sheets.projectMemberships, newColData);
+  appendDataToSheet([{ projectName: name }], sheets.caringProjects, ({ projectName }) => [projectName]);
+};
+
+/** Create a new project in all sheets related to them, reading input from user. */
+export const createProjectEntry = () => {
   const ui = GS.ui();
   const response = ui.prompt('Criar Projeto', 'Qual o nome do novo projeto?', ui.ButtonSet.OK_CANCEL);
 
@@ -22,8 +45,7 @@ export const createProject = () => {
   }
 
   // insert the project into the project membership sheet and project caring sheets
-  addColsToSheet(sheets.projectMemberships, [projectName]);
-  appendDataToSheet([{ projectName }], sheets.caringProjects, ({ projectName }) => [projectName]);
+  createProject(projectName, []);
 
   GS.ss.toast(`Criação de projeto concluída: "${projectName}.`, DialogTitle.Success);
 

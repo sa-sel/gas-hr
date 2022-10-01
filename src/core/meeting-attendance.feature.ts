@@ -3,7 +3,7 @@ import { sheets } from '@utils/constants';
 
 /** Init tracking for today's meeting. */
 export const trackMeetingAttendance = () => {
-  addColsToSheet(sheets.meetingAttendance, [new Date()]);
+  addColsToSheet(sheets.meetingAttendance, [[new Date()]]);
 
   const nCols = sheets.meetingAttendance.getMaxColumns();
   const nFrozenCols = sheets.meetingAttendance.getFrozenColumns();
