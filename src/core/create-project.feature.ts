@@ -10,11 +10,13 @@ export const createProject = (name: string, members: ProjectMemberModel[]) => {
   if (members.length) {
     const allMembersNusp = GS.ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat();
     const projectRoleByNusp: Record<string, ProjectRole> = {};
-    const projetMembersNusp = new Set(members.map(member => {
-      projectRoleByNusp[member.nUsp] = member.role;
+    const projetMembersNusp = new Set(
+      members.map(member => {
+        projectRoleByNusp[member.nUsp] = member.role;
 
-      return member.nUsp;
-    }));
+        return member.nUsp;
+      }),
+    );
 
     allMembersNusp.forEach(nUsp => {
       newColData.push([projetMembersNusp.has(nUsp) ? projectRoleByNusp[nUsp] : undefined]);

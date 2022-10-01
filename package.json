@@ -1,4 +1,7 @@
 {
+  "name": "@sa-sel/hr",
+  "version": "1.0.0",
+  "license": "",
   "scripts": {
     "clasp": "scripts/setup-clasp.sh",
     "prepare": "npm run clasp; husky install; scripts/init-submodules.sh",
