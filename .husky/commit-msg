@@ -6,7 +6,7 @@ ISSUE_FORMAT="#[0-9]{1,}"
 MESSAGE_FORMAT="[^a-z].{2,58}[a-zA-Z0-9]"
 
 MSG_FILE=$1
-MSG_REGEX="($TYPE_OPTIONS)(\(\S{2,7}\)){0,1}( $ISSUE_FORMAT){0,1}(, $ISSUE_FORMAT){0,}: $MESSAGE_FORMAT"
+MSG_REGEX="($TYPE_OPTIONS)(\(\S{2,10}\)){0,1}( $ISSUE_FORMAT){0,1}(, $ISSUE_FORMAT){0,}: $MESSAGE_FORMAT"
 MERGE_REGEX="(Merge [a-z-]+ branch|Merge branch|Merge tag|Merged in|pull) .+"
 
 test "" = "$(grep -E "^($MSG_REGEX|($MERGE_REGEX))\$" "$MSG_FILE")" && {
