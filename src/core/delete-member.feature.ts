@@ -1,4 +1,5 @@
-import { DialogTitle, ss, ui } from '@lib/constants';
+import { DialogTitle, GS } from '@lib/constants';
+import { confirm } from '@lib/functions';
 import { NamedRange } from '@utils/constants';
 import { getMemberData, getTargetNusp, manageMemberSyncedDataSheets } from '@utils/functions';
 
@@ -11,22 +12,16 @@ export const deleteTargetMember = () => {
   }
 
   const member = getMemberData(nusp);
-  const response = ui.prompt(
-    'Excluir Membro',
-    `Você tem certeza que deseja excluir ${member.name} (de nº USP "${member.nUsp}")? Essa ação não pode ser desfeita.`,
-    ui.ButtonSet.YES_NO,
+
+  confirm(
+    {
+      title: 'Excluir Membro',
+      body: `Você tem certeza que deseja excluir ${member.name} (de nº USP "${member.nUsp}")? Essa ação não pode ser desfeita.`,
+    },
+    () => {
+      manageMemberSyncedDataSheets(nusp, cell => cell.getSheet().deleteRow(cell.getRow()));
+      GS.ss.getRangeByName(NamedRange.SearchTarget).clearContent();
+      GS.ss.toast('Membro excluído.', DialogTitle.Success);
+    },
   );
-
-  switch (response.getSelectedButton()) {
-    case ui.Button.YES: {
-      manageMemberSyncedDataSheets(nusp, (cell, sheet) => sheet.deleteRow(cell.getRow()));
-      ss.getRangeByName(NamedRange.SearchTarget).clearContent();
-      ss.toast('Membro excluído.', DialogTitle.Success);
-      break;
-    }
-
-    default: {
-      ss.toast('Exclusão de membro cancelada.', DialogTitle.Aborted);
-    }
-  }
 };

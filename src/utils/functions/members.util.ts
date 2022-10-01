@@ -1,50 +1,34 @@
-import { ss } from '@lib/constants';
-import { appendDataToSheet, isSameSheet, parseDataToString } from '@lib/fuctions';
-import { Range, Sheet } from '@lib/models';
+import { GS } from '@lib/constants';
+import { manageDataInSheets, toString } from '@lib/functions';
+import { Range } from '@lib/models';
 import { MemberModel, MemberUpdateModel } from '@models';
 import { NamedRange, sheets, syncedDataSheets } from '@utils/constants';
 
-export const getAllSavedNusps = (): Set<string> => new Set(ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat());
+export const getAllSavedNusps = (): Set<string> => new Set(GS.ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat());
 
-export const validateNusp = (nusp: string): boolean => /^\d{7,}$/.test(nusp) && !getAllSavedNusps().has(nusp);
+export const validateNusp = (nusp: string): boolean => /^\d{7,}$/.test(nusp);
 
-export const validateMember = (member: MemberModel): boolean => member.name && validateNusp(member.nUsp);
+export const validateNuspUnique = (nusp: string): boolean => validateNusp(nusp) && !getAllSavedNusps().has(nusp);
 
-export const getTargetNusp = (): string => ss.getRangeByName(NamedRange.TargetNusp).getValue();
+export const getTargetNusp = (): string => GS.ss.getRangeByName(NamedRange.TargetNusp).getValue();
 
 export const parseRowToMember = (row: any[]) => ({
-  name: parseDataToString(row[0]),
-  nickname: parseDataToString(row[1]),
-  nUsp: parseDataToString(row[2]),
-  phone: parseDataToString(row[3]),
+  name: toString(row[0]),
+  nickname: toString(row[1]),
+  nUsp: toString(row[2]),
+  phone: toString(row[3]),
   emphasis: row[4],
-  email: parseDataToString(row[5]),
+  email: toString(row[5]),
   birthday: row[6],
 });
 
-export const appendMembersToSheet = (
-  members: MemberModel[],
-  sheet: Sheet,
-  mapFn = (m: MemberModel) => [m.name, m.nickname, m.nUsp] as any[],
-): void => appendDataToSheet(members, sheet, mapFn);
-
 /** Run a function to manage the member in each synced data sheet. */
-export const manageMemberSyncedDataSheets = (nusp: string, fn: (nuspCell: Range, sheet: Sheet) => any): void => {
-  ss.createTextFinder(nusp)
-    .findAll()
-    .forEach(cell => {
-      const occurrenceSheet = cell.getSheet();
-
-      if (syncedDataSheets.some(sheet => isSameSheet(sheet, occurrenceSheet))) {
-        fn(cell, occurrenceSheet);
-      }
-    });
-};
+export const manageMemberSyncedDataSheets = (nusp: string, fn: (nuspCell: Range) => any) => manageDataInSheets(nusp, syncedDataSheets, fn);
 
 export const editMember = (nusp: string, updates: MemberUpdateModel): void =>
   manageMemberSyncedDataSheets(nusp, cell => {
     ['name', 'nickname', 'nUsp'].forEach((key, i, arr) => {
-      if (updates[key] && (key !== 'nUsp' || validateNusp(updates.nUsp))) {
+      if (updates[key] && (key !== 'nUsp' || validateNuspUnique(updates.nUsp))) {
         cell.offset(0, i + 1 - arr.length).setValue(updates[key]);
       }
     });

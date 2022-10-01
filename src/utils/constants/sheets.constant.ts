@@ -1,4 +1,4 @@
-import { ss } from '@lib/constants';
+import { GS } from '@lib/constants';
 
 export const enum SheetName {
   CaringMembers = 'Acompanhamento - Membros',
@@ -12,14 +12,14 @@ export const enum SheetName {
 }
 
 export const sheets = {
-  caringMembers: ss.getSheetByName(SheetName.CaringMembers),
-  caringProjects: ss.getSheetByName(SheetName.CaringProjects),
-  dashboard: ss.getSheetByName(SheetName.Dashboard),
-  mainData: ss.getSheetByName(SheetName.MainData),
-  meetingAttendance: ss.getSheetByName(SheetName.MeetingAttendance),
-  meetingAttendanceChart: ss.getSheetByName(SheetName.MeetingAttendanceChart),
-  newMembers: ss.getSheetByName(SheetName.NewMembers),
-  projectMemberships: ss.getSheetByName(SheetName.ProjectMemberships),
+  caringMembers: GS.ss.getSheetByName(SheetName.CaringMembers),
+  caringProjects: GS.ss.getSheetByName(SheetName.CaringProjects),
+  dashboard: GS.ss.getSheetByName(SheetName.Dashboard),
+  mainData: GS.ss.getSheetByName(SheetName.MainData),
+  meetingAttendance: GS.ss.getSheetByName(SheetName.MeetingAttendance),
+  meetingAttendanceChart: GS.ss.getSheetByName(SheetName.MeetingAttendanceChart),
+  newMembers: GS.ss.getSheetByName(SheetName.NewMembers),
+  projectMemberships: GS.ss.getSheetByName(SheetName.ProjectMemberships),
 };
 
 /** Sheets that contain data for each member and must be kept synced. */

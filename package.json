@@ -5,7 +5,7 @@
     "rollup": "rollup --config .rollup.js",
     "build": "mkdir -p .build && cp -r src/* .build && npm run rollup",
     "format": "eslint . --fix --quiet; prettier --write .",
-    "lint": "eslint . && prettier --check",
+    "lint": "eslint . && prettier --check .",
     "push": "scripts/push.sh"
   },
   "dependencies": {

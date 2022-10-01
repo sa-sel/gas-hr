@@ -1,4 +1,4 @@
-import { addColsToSheet } from '@lib/fuctions';
+import { addColsToSheet } from '@lib/functions';
 import { sheets } from '@utils/constants';
 
 /** Init tracking for today's meeting. */

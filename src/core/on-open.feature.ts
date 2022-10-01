@@ -1,4 +1,4 @@
-import { ss, ui } from '@lib/constants';
+import { GS } from '@lib/constants';
 import { NamedRange } from '@utils/constants';
 import { saveNewMembers } from './create-members.feature';
 import { createProject } from './create-project.feature';
@@ -8,7 +8,9 @@ import { help } from './help.feature';
 import { trackMeetingAttendance } from './meeting-attendance.feature';
 
 export const onOpen = () => {
-  ss.getRangeByName(NamedRange.SearchTarget).clearContent();
+  const ui = GS.ui();
+
+  GS.ss.getRangeByName(NamedRange.SearchTarget).clearContent();
 
   ui.createMenu('[Membros]')
     .addItem('Salvar Novos Membros', saveNewMembers.name)

@@ -1,4 +1,5 @@
-import { DialogTitle, ss, ui } from '@lib/constants';
+import { DialogTitle, GS } from '@lib/constants';
+import { input, readDataFromSheet } from '@lib/functions';
 import { sheets } from '@utils/constants';
 
 const description = `Qual o nome do projeto que deseja excluir? Ele deve ser exatamente igual aparece na planilha.
@@ -7,11 +8,14 @@ Essa operação não pode ser desfeita.
 
 /** Delete a project from all sheets related to them. */
 export const deleteProject = () => {
-  const response = ui.prompt('Excluir Projeto', description, ui.ButtonSet.OK_CANCEL);
-  const projectName = response.getResponseText();
+  const projectName = input(
+    { title: 'Excluir Projeto', body: description },
+    input => readDataFromSheet(sheets.caringProjects, { map: row => row[0] }).includes(input),
+    input => `Não foi encontrado o projeto "${input}". Verifique se ele realmente existe.`,
+  );
 
-  if (response.getSelectedButton() === ui.Button.CANCEL || !projectName) {
-    ss.toast('Exclusão de projeto cancelada.', DialogTitle.Aborted);
+  if (!projectName) {
+    GS.ss.toast('Exclusão de projeto cancelada.', DialogTitle.Aborted);
 
     return;
   }
@@ -36,5 +40,5 @@ export const deleteProject = () => {
       }
     });
 
-  ss.toast(`Exclusão de projeto concluída: "${projectName}.`, DialogTitle.Success);
+  GS.ss.toast(`Exclusão de projeto concluída: "${projectName}.`, DialogTitle.Success);
 };

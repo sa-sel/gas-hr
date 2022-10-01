@@ -1,7 +1,8 @@
-import { DialogTitle, ss, ui } from '@lib/constants';
+import { DialogTitle, GS } from '@lib/constants';
+import { getNamedValue, input } from '@lib/functions';
 import { MemberModel, MemberUpdateModel } from '@models';
 import { NamedRange } from '@utils/constants';
-import { editMember, getMemberData, getTargetNusp, validateNusp } from '@utils/functions';
+import { editMember, getMemberData, getTargetNusp, validateNuspUnique } from '@utils/functions';
 
 const describeModal = (member: MemberModel, attribute: string) =>
   `
@@ -18,40 +19,31 @@ const editTargetMember = (attribute: keyof MemberUpdateModel, attributeDescripto
   const nusp = getTargetNusp();
 
   if (!nusp) {
-    ss.toast('Nenhum membro selecionado.', DialogTitle.Error);
+    GS.ss.toast('Nenhum membro selecionado.', DialogTitle.Error);
 
     return;
   }
 
-  const response = ui.prompt('Editar Usuário', describeModal(getMemberData(nusp), attributeDescriptor), ui.ButtonSet.OK_CANCEL);
+  const newValue = input(
+    { title: 'Editar Usuário', body: describeModal(getMemberData(nusp), attributeDescriptor) },
+    input => !validator || validator(input),
+    input => `O ${attributeDescriptor.toLowerCase()} escolhido é inválido: "${input}".`,
+  );
 
-  switch (response.getSelectedButton()) {
-    case ui.Button.OK: {
-      const newValue = response.getResponseText();
-      const searchType = ss.getRangeByName(NamedRange.SearchType).getValue().toLowerCase();
+  if (!newValue) {
+    GS.ss.toast('Edição de membro cancelada.', DialogTitle.Aborted);
 
-      if (!newValue || (validator && !validator(newValue))) {
-        ss.toast(`O ${attributeDescriptor.toLowerCase()} escolhido é inválido: "${newValue}".`, DialogTitle.Error);
-
-        return;
-      }
-
-      editMember(nusp, { [attribute]: newValue });
-
-      // if the searched attribute was changed, update it in the dashboard
-      if (searchType === attributeDescriptor.toLowerCase()) {
-        ss.getRangeByName(NamedRange.SearchTarget).setValue(newValue);
-      }
-
-      ss.toast(`Edição de membro concluída, ${attributeDescriptor} atualizado.`, DialogTitle.Success);
-
-      break;
-    }
-
-    default: {
-      ss.toast('Edição de membro cancelada.', DialogTitle.Aborted);
-    }
+    return;
   }
+
+  editMember(nusp, { [attribute]: newValue });
+
+  // if the searched attribute was changed, update it in the dashboard
+  if (getNamedValue(NamedRange.SearchType).toLowerCase() === attributeDescriptor.toLowerCase()) {
+    GS.ss.getRangeByName(NamedRange.SearchTarget).setValue(newValue);
+  }
+
+  GS.ss.toast(`Edição de membro concluída, ${attributeDescriptor} atualizado.`, DialogTitle.Success);
 };
 
 /** Propmt the user for the member's new name and edit it in all synced data sheets. */
@@ -61,4 +53,4 @@ export const editTargetMemberName = () => editTargetMember('name', 'nome');
 export const editTargetMemberNickname = () => editTargetMember('nickname', 'apelido');
 
 /** Propmt the user for the member's new nº USP and edit it in all synced data sheets. */
-export const editTargetMemberNusp = () => editTargetMember('nUsp', 'nº USP', validateNusp);
+export const editTargetMemberNusp = () => editTargetMember('nUsp', 'nº USP', validateNuspUnique);
