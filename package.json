@@ -12,7 +12,7 @@
     "push": "scripts/push.sh"
   },
   "dependencies": {
-    "sa-sel-gas-library": "file:src/lib"
+    "@sa-sel/lib": "file:src/lib"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",

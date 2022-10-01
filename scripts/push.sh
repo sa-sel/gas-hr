@@ -6,8 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"/..
 source "scripts/setup-clasp.sh"
 
 # build and copy config to build dir
-mkdir -p .build
-npm run build
+yarn build
 cp "appsscript.json" ".claspignore" ".clasp.json" ".build"
 
 # remove export statements from transpiled files
