@@ -1,4 +1,4 @@
-import { StudentBasicModel } from '@lib/models';
+import { StudentBasicModel } from '@lib';
 
 export const enum ProjectRole {
   Coordinator = 'Coordenador',

@@ -1,4 +1,4 @@
-import { isSameSheet, saveNewData } from '@lib/functions';
+import { isSameSheet, saveNewData } from '@lib';
 import { MemberModel } from '@models';
 import { SheetName, sheets, syncedDataSheets } from '@utils/constants';
 import { counter, getAllSavedNusps, parseRowToMember, validateNusp } from '@utils/functions';

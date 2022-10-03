@@ -1,5 +1,4 @@
-import { DialogTitle, GS } from '@lib/constants';
-import { getNamedValue, input } from '@lib/functions';
+import { DialogTitle, getNamedValue, GS, input } from '@lib';
 import { MemberModel, MemberUpdateModel } from '@models';
 import { NamedRange } from '@utils/constants';
 import { editMember, getMemberData, getTargetNusp, validateNuspUnique } from '@utils/functions';

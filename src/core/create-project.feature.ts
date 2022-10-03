@@ -1,5 +1,4 @@
-import { DialogTitle, GS } from '@lib/constants';
-import { addColsToSheet, appendDataToSheet } from '@lib/functions';
+import { addColsToSheet, appendDataToSheet, DialogTitle, GS } from '@lib';
 import { ProjectMemberModel, ProjectRole } from '@models';
 import { NamedRange, sheets } from '@utils/constants';
 
@@ -29,10 +28,9 @@ export const createProject = (name: string, members: ProjectMemberModel[]) => {
 
 /** Create a new project in all sheets related to them, reading input from user. */
 export const createProjectEntry = () => {
-  const ui = GS.ui();
-  const response = ui.prompt('Criar Projeto', 'Qual o nome do novo projeto?', ui.ButtonSet.OK_CANCEL);
+  const response = GS.ssui.prompt('Criar Projeto', 'Qual o nome do novo projeto?', GS.ssui.ButtonSet.OK_CANCEL);
 
-  if (response.getSelectedButton() === ui.Button.CANCEL) {
+  if (response.getSelectedButton() === GS.ssui.Button.CANCEL) {
     GS.ss.toast('Criação de projeto cancelada.', DialogTitle.Aborted);
 
     return;

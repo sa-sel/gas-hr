@@ -1,6 +1,4 @@
-import { GS } from '@lib/constants';
-import { manageDataInSheets, toString } from '@lib/functions';
-import { Range } from '@lib/models';
+import { GS, manageDataInSheets, Range, toString } from '@lib';
 import { MemberModel, MemberUpdateModel } from '@models';
 import { NamedRange, sheets, syncedDataSheets } from '@utils/constants';
 

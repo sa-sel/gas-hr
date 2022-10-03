@@ -1,6 +1,4 @@
-import { SaDepartment, SaDepartmentAbbreviations } from '@lib/constants';
-import { manageDataInSheets } from '@lib/functions';
-import { StudentBasicModel } from '@lib/models';
+import { manageDataInSheets, SaDepartment, SaDepartmentAbbreviations, StudentBasicModel } from '@lib';
 import { ProjectRole } from '@models';
 import { sheets } from '@utils/constants';
 
@@ -17,7 +15,7 @@ export const getDirector = (department: SaDepartment): StudentBasicModel | null 
       const directorCell = departmentCol.createTextFinder(ProjectRole.Director).findNext();
 
       if (directorCell) {
-        const data: string[] = sheet.getRange(directorCell.getRow(), 1, 1, 3).getValue();
+        const data: string[] = sheet.getRange(directorCell.getRow(), 1, 1, 3).getValues().flat();
 
         director = { name: data[0], nickname: data[1], nUsp: data[2] };
       }

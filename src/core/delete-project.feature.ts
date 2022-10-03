@@ -1,5 +1,4 @@
-import { DialogTitle, GS } from '@lib/constants';
-import { input, readDataFromSheet } from '@lib/functions';
+import { DialogTitle, GS, input, readDataFromSheet } from '@lib';
 import { sheets } from '@utils/constants';
 
 const description = `Qual o nome do projeto que deseja excluir? Ele deve ser exatamente igual aparece na planilha.

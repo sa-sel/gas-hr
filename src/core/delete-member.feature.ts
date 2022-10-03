@@ -1,5 +1,4 @@
-import { DialogTitle, GS } from '@lib/constants';
-import { confirm } from '@lib/functions';
+import { confirm, DialogTitle, GS } from '@lib';
 import { NamedRange } from '@utils/constants';
 import { getMemberData, getTargetNusp, manageMemberSyncedDataSheets } from '@utils/functions';
 
