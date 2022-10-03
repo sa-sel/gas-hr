@@ -20,7 +20,11 @@ const config = {
   input: './.build/index.ts',
   output: { dir: '.build', format: 'esm' },
   plugins: [
-    typescriptPaths({ absolute: false, preserveExtensions: true }),
+    typescriptPaths({
+      absolute: false,
+      preserveExtensions: true,
+      tsConfigPath: './.build/tsconfig.json',
+    }),
     preventTreeShakingPlugin,
     nodeResolve({ extensions }),
     babel({

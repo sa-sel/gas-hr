@@ -10,12 +10,13 @@
     "noImplicitReturns": true,
     "sourceMap": true,
     "target": "ES2019",
-    "baseUrl": "./",
+    "baseUrl": "./src/",
     "paths": {
-      "@lib/*": ["src/lib/src/*"],
-      "@models": ["src/models"],
-      "@utils/*": ["src/utils/*"],
-      "@core/*": ["src/core/*"]
+      "@lib": ["lib/src"],
+      "@lib/*": ["lib/src/*"],
+      "@models": ["models"],
+      "@utils/*": ["utils/*"],
+      "@core/*": ["core/*"]
     }
   }
 }

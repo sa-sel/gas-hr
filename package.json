@@ -1,12 +1,13 @@
 {
   "name": "@sa-sel/hr",
   "version": "1.0.0",
-  "license": "",
+  "private": true,
+  "license": "MIT",
   "scripts": {
     "clasp": "scripts/setup-clasp.sh",
     "prepare": "npm run clasp; husky install; scripts/init-submodules.sh",
     "rollup": "rollup --config .rollup.js",
-    "build": "mkdir -p .build && cp -r src/* .build && ./scripts/handle-path-aliases.sh && npm run rollup",
+    "build": "scripts/build.sh",
     "format": "eslint . --fix --quiet; prettier --write .",
     "lint": "eslint . && prettier --check .",
     "push": "scripts/push.sh"
