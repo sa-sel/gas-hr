@@ -1,17 +1,31 @@
 #!/bin/sh
+
 . "$(dirname "$0")/_/husky.sh"
 
-TYPE_OPTIONS="feat|fix|refactor|chore|build|docs|style|perf"
-ISSUE_FORMAT="#[0-9]{1,}"
-MESSAGE_FORMAT="[^a-z].{2,58}[a-zA-Z0-9]"
+ITALIC="\033[3m"
+UNDERLINED="\033[4m"
+BOLD="\033[1m"
+NORMAL_STYLE="\033[0m"
+
+TYPE_OPTIONS="feat|fix|refactor|chore|build|docs|style|perf|ci"
+ISSUE_FORMAT="\S*#[0-9]{1,}"
+MESSAGE_FORMAT="[^a-z].{2,58}[^.!?;,]"
+SCOPE_MAX_LEN="10"
 
 MSG_FILE=$1
-MSG_REGEX="($TYPE_OPTIONS)(\(\S{2,10}\)){0,1}( $ISSUE_FORMAT){0,1}(, $ISSUE_FORMAT){0,}: $MESSAGE_FORMAT"
+MSG_REGEX="($TYPE_OPTIONS)(\(\S{2,$SCOPE_MAX_LEN}\)){0,1}( $ISSUE_FORMAT){0,1}(, $ISSUE_FORMAT){0,}: $MESSAGE_FORMAT"
 MERGE_REGEX="(Merge [a-z-]+ branch|Merge branch|Merge tag|Merged in|pull) .+"
 
 test "" = "$(grep -E "^($MSG_REGEX|($MERGE_REGEX))\$" "$MSG_FILE")" && {
   printf "\n❌ The commit message does not follow the policy.\n"
-  printf "⚠️ It should follow the pattern \"<type>(<scope>) <TASK>: Commit message\" (e.g.: 'feat(email) #7: Create \"email preview\" view'). For more guidelines, read the project's README.\n\n"
+  printf "⚠️ It should follow the pattern \"<type>(<scope>) <TASK>: Commit message\" (e.g.: 'feat(email) #7: Create \"email preview\" view').\n"
+  printf "  👉 There should be no trailing punctuation in the ${BOLD}<commit message>${NORMAL_STYLE}\n"
+  printf "  👉 The ${BOLD}<type>${NORMAL_STYLE} options are: ${UNDERLINED}${TYPE_OPTIONS//\|/$NORMAL_STYLE, $UNDERLINED}${NORMAL_STYLE}\n"
+  printf "  👉 The ${BOLD}<scope>${NORMAL_STYLE} should be a short substantive describing the area where the changes took place\n"
+  printf "  👉 The ${BOLD}<task>${NORMAL_STYLE} should be something like ${UNDERLINED}#13${NORMAL_STYLE}\n"
+  printf "  👉 The ${BOLD}<commit message>${NORMAL_STYLE} should be at most 60 chars long and in the imperative tense "
+  printf "(e.g. ${UNDERLINED}Change${NORMAL_STYLE} instead of ${UNDERLINED}Changes${NORMAL_STYLE} or ${UNDERLINED}Changed${NORMAL_STYLE})\n"
+  printf "🟠 For more detailed guidelines, see the project's README.\n\n"
   exit 1
 }
 
