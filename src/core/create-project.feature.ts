@@ -4,7 +4,7 @@ import { NamedRange, sheets } from '@utils/constants';
 
 /** Create a new project with its members.*/
 export const createProject = (name: string, members: ProjectMemberModel[]) => {
-  const newColData = [[name]];
+  const newColData = [[name, undefined]];
 
   if (members.length) {
     const allMembersNusp = GS.ss.getRangeByName(NamedRange.AllSavedNusps).getValues().flat();
@@ -18,11 +18,11 @@ export const createProject = (name: string, members: ProjectMemberModel[]) => {
     );
 
     allMembersNusp.forEach(nUsp => {
-      newColData.push([projetMembersNusp.has(nUsp) ? projectRoleByNusp[nUsp] : undefined]);
+      newColData[0].push(projetMembersNusp.has(nUsp) ? projectRoleByNusp[nUsp] : undefined);
     });
   }
 
-  addColsToSheet(sheets.projectMemberships, newColData);
+  addColsToSheet(newColData, sheets.projectMemberships);
   appendDataToSheet([{ projectName: name }], sheets.caringProjects, ({ projectName }) => [projectName]);
 };
 

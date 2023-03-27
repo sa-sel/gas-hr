@@ -1,6 +1,7 @@
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { typescriptPaths } from 'rollup-plugin-typescript-paths';
+import { resolve } from 'path';
+import typescript from 'rollup-plugin-typescript2';
 
 const extensions = ['.ts', '.js'];
 
@@ -16,20 +17,18 @@ const minified = {
   minified: true,
 };
 
+/** @type {import('rollup').RollupOptions} */
 const config = {
   input: './.build/index.ts',
   output: { dir: '.build', format: 'esm' },
   plugins: [
-    typescriptPaths({
-      absolute: false,
-      preserveExtensions: true,
-      tsConfigPath: './.build/tsconfig.json',
-    }),
     preventTreeShakingPlugin,
     nodeResolve({ extensions }),
+    typescript(),
     babel({
       extensions,
       babelHelpers: 'runtime',
+      include: resolve('.build', 'src', '**', '*.ts'),
       exclude: ['node_modules/**'],
       configFile: './.babelrc.js',
       ...(isGithub ? minified : {}),

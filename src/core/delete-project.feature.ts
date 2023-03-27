@@ -1,4 +1,4 @@
-import { DialogTitle, GS, input, readDataFromSheet } from '@lib';
+import { DialogTitle, GS, input, fetchData } from '@lib';
 import { sheets } from '@utils/constants';
 
 const description = `Qual o nome do projeto que deseja excluir? Ele deve ser exatamente igual aparece na planilha.
@@ -9,7 +9,7 @@ Essa operação não pode ser desfeita.
 export const deleteProject = () => {
   const projectName = input(
     { title: 'Excluir Projeto', body: description },
-    input => readDataFromSheet(sheets.caringProjects, { map: row => row[0] }).includes(input),
+    input => fetchData(sheets.caringProjects, { map: row => row[0] }).includes(input),
     input => `Não foi encontrado o projeto "${input}". Verifique se ele realmente existe.`,
   );
 

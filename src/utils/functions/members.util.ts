@@ -10,7 +10,7 @@ export const validateNuspUnique = (nusp: string): boolean => validateNusp(nusp) 
 
 export const getTargetNusp = (): string => GS.ss.getRangeByName(NamedRange.TargetNusp).getValue();
 
-export const parseRowToMember = (row: any[]) => ({
+export const parseRowToMember = (row: any[]): MemberModel => ({
   name: toString(row[0]),
   nickname: toString(row[1]),
   nUsp: toString(row[2]),
@@ -36,7 +36,7 @@ export const getMemberData = (nusp: string): MemberModel => {
   const occurrences = sheets.mainData.createTextFinder(nusp).findAll();
 
   if (occurrences.length !== 1) {
-    throw new RangeError('Member not found/duplicate members found.');
+    throw new RangeError(`Occurrences of nUSP '${nusp}' found: ${occurrences.length}.`);
   }
 
   const rowIndex = occurrences.pop().getRow();
